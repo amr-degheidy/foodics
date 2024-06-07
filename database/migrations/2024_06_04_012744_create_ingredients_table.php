@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('ingredients', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->unsignedBigInteger('quantity')->default(0);
+            $table->unsignedBigInteger('used_quantity')
+                ->default(0)
+                ->comment('to denormalize to access used quantity ex: notify when reach specific percentage')
+            ;
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('ingredients');
+    }
+};
